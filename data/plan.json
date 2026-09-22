@@ -1,0 +1,41 @@
+{
+  "name": "示例装窑方案",
+  "tempStart": 20,
+  "tempTarget": 1250,
+  "kiln": {
+    "width": 80,
+    "depth": 60
+  },
+  "bodies": [
+    {
+      "id": "b1",
+      "name": "碗坯 A",
+      "w": 16,
+      "h": 16,
+      "cx": 22,
+      "cy": 20,
+      "angle": 0,
+      "alpha": 8
+    },
+    {
+      "id": "b2",
+      "name": "碗坯 B",
+      "w": 16,
+      "h": 16,
+      "cx": 38.1,
+      "cy": 20,
+      "angle": 0,
+      "alpha": 8
+    },
+    {
+      "id": "b3",
+      "name": "斜置方盘",
+      "w": 20,
+      "h": 12,
+      "cx": 62,
+      "cy": 44,
+      "angle": 35,
+      "alpha": 6
+    }
+  ]
+}

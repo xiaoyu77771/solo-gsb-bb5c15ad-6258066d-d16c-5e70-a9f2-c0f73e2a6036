@@ -1,0 +1,5 @@
+node_modules/
+data/plan.json
+data/plan.json.tmp
+npm-debug.log*
+.DS_Store

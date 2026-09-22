@@ -1,0 +1,18 @@
+{
+  "name": "kiln-precheck",
+  "version": "1.0.0",
+  "description": "陶艺工作室装窑预检 Web 应用：旋转矩形坯体热膨胀碰撞检测",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test/physics.test.js && node test/app.smoke.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

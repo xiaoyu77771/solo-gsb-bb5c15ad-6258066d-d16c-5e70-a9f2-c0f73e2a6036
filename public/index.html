@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陶艺装窑预检 · Kiln Pre-check</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>陶艺装窑预检</h1>
+  <div class="header-actions">
+    <span id="save-status" class="save-status" title="方案自动保存到服务器 data/plan.json">未加载</span>
+    <button id="btn-save" class="btn primary" type="button">保存方案</button>
+    <button id="btn-reset" class="btn" type="button">恢复示例</button>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="sidebar">
+    <section class="panel">
+      <h2>窑室与温度</h2>
+      <div class="form-grid">
+        <label>窑室宽 (cm)
+          <input id="kiln-w" type="number" min="1" step="1">
+        </label>
+        <label>窑室深 (cm)
+          <input id="kiln-d" type="number" min="1" step="1">
+        </label>
+        <label>起始温度 (°C)
+          <input id="temp-start" type="number" step="1">
+        </label>
+        <label>目标温度 (°C)
+          <input id="temp-target" type="number" step="1">
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>添加坯体</h2>
+      <div class="form-grid">
+        <label class="span2">名称
+          <input id="new-name" type="text" placeholder="如：青釉碗">
+        </label>
+        <label>宽 (cm)
+          <input id="new-w" type="number" min="0.1" step="0.5" value="14">
+        </label>
+        <label>高 (cm)
+          <input id="new-h" type="number" min="0.1" step="0.5" value="14">
+        </label>
+        <label>线膨胀系数 α<sub>L</sub>
+          <input id="new-alpha" type="number" min="0" step="0.1" value="8">
+          <small>单位 ×10<sup>−6</sup>/°C</small>
+        </label>
+        <label>初始角度 (°)
+          <input id="new-angle" type="number" step="1" value="0">
+        </label>
+      </div>
+      <button id="btn-add" class="btn primary full" type="button">＋ 放入窑室中央</button>
+    </section>
+
+    <section class="panel body-list-panel">
+      <h2>坯体列表</h2>
+      <ul id="body-list" class="body-list"></ul>
+    </section>
+
+    <section class="panel" id="props-panel" hidden>
+      <h2>选中坯体</h2>
+      <div class="form-grid">
+        <label>名称
+          <input id="prop-name" type="text">
+        </label>
+        <label>宽 (cm)
+          <input id="prop-w" type="number" min="0.1" step="0.5">
+        </label>
+        <label>高 (cm)
+          <input id="prop-h" type="number" min="0.1" step="0.5">
+        </label>
+        <label>α<sub>L</sub> (×10<sup>−6</sup>/°C)
+          <input id="prop-alpha" type="number" min="0" step="0.1">
+        </label>
+        <label class="span2">旋转角度 (°)
+          <input id="prop-angle" type="range" min="-180" max="180" step="1">
+          <span id="prop-angle-val" class="range-val">0°</span>
+        </label>
+        <label>中心 X (cm)
+          <input id="prop-cx" type="number" step="0.5">
+        </label>
+        <label>中心 Y (cm)
+          <input id="prop-cy" type="number" step="0.5">
+        </label>
+      </div>
+      <div class="prop-actions">
+        <button id="btn-rotate-l" class="btn" type="button">⟲ 左旋 15°</button>
+        <button id="btn-rotate-r" class="btn" type="button">⟳ 右旋 15°</button>
+        <button id="btn-delete" class="btn danger" type="button">删除坯体</button>
+      </div>
+    </section>
+  </aside>
+
+  <section class="stage">
+    <div class="canvas-wrap">
+      <canvas id="kiln-canvas"></canvas>
+      <div id="canvas-errors" class="canvas-errors" hidden></div>
+    </div>
+
+    <div class="result-bar">
+      <div class="result-card safe" id="result-card">
+        <div class="result-title">预检结果</div>
+        <div class="result-value" id="result-value">—</div>
+        <div class="result-sub" id="result-sub">请等待计算…</div>
+      </div>
+      <div class="legend">
+        <span><i class="sw current"></i> 起始温度外廓</span>
+        <span><i class="sw target"></i> 目标温度外廓（虚线）</span>
+        <span><i class="sw contact"></i> 最早接触涉事对象</span>
+      </div>
+    </div>
+
+    <section class="panel contacts-panel">
+      <h2>接触明细（目标温度内）</h2>
+      <table class="contacts-table">
+        <thead>
+          <tr><th>#</th><th>接触类型</th><th>对象</th><th>接触温度</th><th>温升值</th><th>接触位置 (cm)</th><th></th></tr>
+        </thead>
+        <tbody id="contacts-tbody"></tbody>
+      </table>
+    </section>
+
+    <p class="hint">操作提示：左键拖动画布移动坯体；选中后拖动顶部圆形手柄（或使用角度滑杆）旋转；按 <kbd>Delete</kbd> 删除。修改任意参数立即重算，停止操作 0.6 秒后自动持久化。</p>
+  </section>
+</main>
+
+<script src="physics.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
